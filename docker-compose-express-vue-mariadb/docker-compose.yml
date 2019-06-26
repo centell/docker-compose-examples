@@ -1,0 +1,45 @@
+version: '3.7'
+services:
+
+  server:
+    image: node:latest
+    container_name: express
+    working_dir: /usr/src/service
+    volumes:
+      - ./server:/usr/src/service
+    environment:
+      - NODE_ENV=${NODE_ENV}
+    command: npm start
+    ports:
+      - ${EXPRESS_PORT}:3000
+
+  client:
+    image: node:latest
+    container_name: vue
+    working_dir: /usr/src/service
+    volumes:
+      - ./client:/usr/src/service
+    environment:
+      - NODE_ENV=${NODE_ENV}
+    command: npm run serve
+    ports:
+      - ${VUE_PORT}:8080
+
+  # Database: mariaDB
+  database:
+    image: mariadb:latest
+    container_name: mariadb
+    volumes:
+      # Configuration
+      - "./docker/mariadb/my.cnf:/etc/mysql/conf.d/my.cnf"
+      # Keep DB data
+      - "./docker/mariadb/data:/var/lib/mysql"
+    environment:
+      - TZ=Asia/Seoul
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+      - MYSQL_DATABASE=${MYSQL_DATABASE}
+      - MYSQL_USER=${MYSQL_USER}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+    ports:
+      - ${MYSQL_PORT}:3306
+    restart: always
