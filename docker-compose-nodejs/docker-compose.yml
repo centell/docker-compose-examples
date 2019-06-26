@@ -1,0 +1,14 @@
+version: "3.7"
+services:
+  app:
+    image: node:latest
+    container_name: nodejs
+    volumes:
+      - ./node_modules:/usr/src/service/node_modules
+      - .:/usr/src/service
+    environment:
+      - NODE_ENV=${NODE_ENV}
+    working_dir: /usr/src/service
+    command: npm start
+    ports:
+      - ${NODE_PORT}:3000

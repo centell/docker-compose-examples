@@ -4,7 +4,7 @@ services:
   # Database: mariaDB
   database:
     image: mariadb:latest
-    container_name: maria db
+    container_name: mariadb
     volumes:
       # Configuration
       - "./docker/mariadb/my.cnf:/etc/mysql/conf.d/my.cnf"
